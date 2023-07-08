@@ -1,0 +1,83 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import FullPost from "../../components/FullPost.astro";
+const search = Astro.url.searchParams.get('post')! || '';
+
+const response = await fetch(`http://127.0.0.1:8000/api/posts/${search}`);
+const post = await response.json();
+
+---
+
+
+
+<Layout title={`Post By ${post.post_user.username}`}>
+    <div class="full-post-top">
+        <a href="/">
+            <i class="bi bi-arrow-left"></i>
+            <span>Back</span>
+        </a>
+    </div>
+   <FullPost
+            id={post.id} 
+            href={`/${post.post_user.username}`} 
+            avatar={post.post_user.avatar} 
+            username={post.post_user.username} 
+            post_date={post.created_at} 
+            post_body={post.post_content}
+            post_likes={post.post_likes_count}
+            user_has_liked={post.user_has_liked}
+    />
+
+    <div class="replies-block">
+        <div class="heading">
+            <h2>Replies</h2>
+            <span>
+                <i class="bi bi-chat-fill"></i>
+                00
+            </span>
+        </div>
+        <div class="replies-main">
+             
+        </div>
+    </div>
+</Layout>
+
+<style lang="scss">
+    .full-post-top{
+        margin-bottom: 1em;
+        padding: 0 0.5em;
+        
+        a{
+            display: flex;
+            gap: 0.25em;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-second);
+            text-decoration: none;
+
+        }
+    }
+
+    .replies-block{
+
+        .heading{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5em;
+
+            h2{
+                color: var(--text-second);
+            }
+
+            span{
+                display: flex;
+                gap: 0.25em;
+                align-items: center;
+                color: var(--text-second);
+                font-size: 1.2rem;
+            }
+        }
+    }
+</style>

@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RegForm from '../components/auth/RegForm.astro';
+---
+<Layout title="Sign Up!">
+    <div class="auth-wrapper">
+        <h2>Sign up to Chatter</h2>
+        <RegForm />
+        <a href="/login">Already got an account?</a>
+    </div>
+</Layout>
+
+<style lang="scss">
+    .auth-wrapper{
+        width: 25em;
+        max-width: 100%;
+        margin: 0 auto;
+
+        h2{
+            margin-top: 2em;
+            color: var(--text-second);
+        }
+
+        a{
+            color: steelblue;
+        }
+    }
+</style>

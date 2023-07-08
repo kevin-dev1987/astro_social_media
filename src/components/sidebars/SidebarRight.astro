@@ -1,0 +1,25 @@
+---
+import SidebarFollow from "./SidebarFollow.astro";
+import Footer from '../Footer.astro';
+---
+
+<aside id="sidebar-right">
+    <div class="sidebar-right-block">
+        <SidebarFollow />
+    </div>
+    <div class="sidebar-right-block">
+        <Footer />
+    </div>
+</aside>
+
+<style lang="scss">
+    #sidebar-right{
+        margin-top: 2em;
+
+        .sidebar-right-block{
+            background-color: var(--block-bg);
+            border-radius: 10px;
+            margin-bottom: 1.5em;
+        }
+    }
+</style>

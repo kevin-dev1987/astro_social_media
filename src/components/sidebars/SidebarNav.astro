@@ -1,0 +1,39 @@
+---
+import navLinks from '../../js/data/nav_links.js';
+import NavLink from './NavLink.astro';
+---
+
+<nav>
+    <ul>
+        {
+            navLinks.map((link) => (
+                <NavLink 
+                icon={link.icon} 
+                href={link.href}
+                title={link.title}  />
+            ))
+        }
+    </ul>
+</nav>
+
+<style lang="scss">
+    nav{
+        margin-top: 5em;
+        width: 100%;
+        position: sticky;
+        top: 5em;
+        display: flex;
+        justify-content: flex-end;
+        
+
+        ul{
+            width: 80%;
+            // border: 1px solid #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 2em;
+            align-items: flex-start;
+        }
+    }
+</style>
+

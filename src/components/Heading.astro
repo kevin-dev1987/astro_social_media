@@ -1,0 +1,64 @@
+---
+import LinkBtn from "./LinkBtn.astro";
+
+interface Props {
+    is_auth: boolean,
+}
+
+const {
+    is_auth
+} = Astro.props as Props;
+
+---
+
+<header>
+    <div class="header-contents">
+        <div class="logo">
+            <i class="bi bi-wechat"></i>
+            <h2>Chatter</h2>
+        </div>
+        {!is_auth ? 
+        
+        <div class="auth-prompt">
+            <LinkBtn text="Sign Up" href="/register" style="btn-lg btn-blue" />
+            <LinkBtn text="Log In" href="/login" style="btn-lg btn-white" />
+        </div>
+    
+        : ''}
+    </div>
+</header>
+
+<style lang="scss">
+    header{
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background-color: var(--main-bg);
+        padding: 0.5em 0;
+        
+        
+        .header-contents{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em;
+            width: 100%;
+            
+
+            .logo{
+                display: flex;
+                gap: 0.5em;
+                align-items: center;
+
+                i{
+                    font-size: 2rem;
+                    color: #fff;
+                }
+
+                h2{
+                    color: #fff;
+                }
+            }
+        }
+    }
+</style>

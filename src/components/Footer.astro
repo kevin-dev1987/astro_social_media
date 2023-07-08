@@ -1,0 +1,46 @@
+---
+
+---
+
+<footer>
+    <ul>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Advertise</a>
+        <a href="#">Analytics</a>
+    </ul>
+    <p>Copyright Chatter &copy; <span id="copyright"></span> | All Rights Reseserved</p>
+</footer>
+
+<style lang="scss">
+    footer{
+        padding: 0.25em;
+
+        ul{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            row-gap: 1em;
+            place-items: center;
+            margin-bottom: 0.75em;
+
+            a{
+                font-size: 0.9rem;
+                color: var(--text-second);
+                text-decoration: none;
+            }
+        }
+
+        p{
+            font-size: 0.8rem;
+            color: var(--text-second);
+            text-align: center;
+        }
+    }
+</style>
+
+<script>
+    $('#copyright').html(new Date().getFullYear().toString())
+</script>

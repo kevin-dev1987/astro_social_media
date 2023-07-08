@@ -1,0 +1,222 @@
+---
+import Button from '../Button.astro';
+---
+
+
+<form id="reg_form">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+        <p class="username-errors errors"></p>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email">
+        <p class="email-errors errors"></p>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <div class="password-flex">
+            <input class="password" type="password" name="password" id="password">
+            <i class="bi bi-eye-fill pass-toggle"></i>
+        </div>
+        <p class="password-errors errors"></p>
+    </div>
+    <div>
+        <label for="password2">Confirm Password</label>
+        <div class="password-flex">
+            <input class="password" type="password" name="password_confirmation" id="password2">
+            <i class="bi bi-eye-fill pass-toggle"></i>
+        </div>
+    </div>
+    <div>
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob">
+        <p class="dob-errors errors"></p>
+    </div>
+    <div class="reg-agree">
+        <div class="interaction">
+            <label for="reg_agree">
+                <i class="bi bi-check"></i>
+            </label>
+            <input class="reg-agree-input" type="checkbox" name="reg-agree" id="reg_agree" hidden>
+            <p>I agree to the  <a href="#">Terms & Conditions</a></p>
+        </div>
+        <p class="agree-errors errors"></p>
+    </div>
+    <div class="buttons">
+        <Button text={'Reset'} classList={['btn-lg', 'btn-red']} type="reset" />
+        <Button text={'Sign Up'} classList={['btn-lg', 'btn-blue', 'submit-reg']} type="submit" />
+    </div>
+</form>
+
+
+<style lang="scss">
+    form{
+        margin: 2em auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        div{
+            display: flex;
+            flex-direction: column;
+            gap: 0.25em;
+            width: 100%;
+
+            label{
+                color: var(--text-second);
+                font-size: 1.4em;
+            }
+
+            input{
+                height: 40px;
+                border: 2px solid steelblue;
+                background: var(--block-bg);
+                border-radius: 25px;
+                font-size: 1.2rem;
+                padding: 0 0.5em;
+                color: var(--text-second);
+                font-weight: bold;
+
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            .errors{
+                color: var(--error);
+                padding: 0.25em 0 0 0.5em;
+            }
+
+            .password-flex{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                position: relative;
+                
+                input{
+                    width: 100%;
+                }
+
+
+                i{
+                    position: absolute;
+                    right: 10px;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                    color: var(--text-second);
+                    // top: 2px;
+
+                }
+            }
+        }
+
+        .reg-agree{
+            display: flex;
+            flex-direction: column;
+            gap: 0.25em;
+            
+            .interaction{
+
+                display: flex;
+                flex-direction: row;
+                gap: 0.5em;
+                align-items: center;
+
+                label{
+                    border: 1px solid #000;
+                    background-color: var(--text-second);
+                    height: 25px;
+                    width: 25px;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    i{
+                        color: green;
+                        font-size: 2rem;
+                        padding-top: 0.1em;
+                        display: none;
+                    }
+                }
+
+                p{
+                    color: var(--text-second);
+
+                    a{
+                        color: steelblue;
+                    }
+                }
+            }
+        }
+
+        .buttons{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 0.5em;
+        }
+    }
+</style>
+
+<script>
+
+    $('.reg-agree > .reg-agree-input').prop('checked', false)
+
+    $(document).on('click', '.reg-agree > label', function(){
+        console.log('clicked')
+        $(this).parent().find('i').toggle()
+    })
+
+    var currentType = 'password'
+    var currentClass = 'bi bi-eye-fill'
+
+    $('.pass-toggle').on('click', function(){
+        currentType = currentType === "password" ? "text" : "password"
+        $(this).parent().find('.password').attr('type', currentType)
+
+        currentClass = currentClass === "bi bi-eye-fill" ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"
+        // $(this).removeClass()
+        this.classList.toggle(currentClass)
+    })
+
+    $(document).on('click', '.submit-reg', function(e){
+        e.preventDefault()
+        $('.errors').html('')
+        var regForm = $('#reg_form')[0]
+        var regData = new FormData(regForm)
+        console.log(regData)
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/api/users/create',
+            method: 'POST',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: regData,
+            success: function(response){
+                if(response.errors.username){
+                    $('.username-errors').html(response.errors.username)
+                }
+                if(response.errors.email){
+                    $('.email-errors').html(response.errors.email)
+                }
+                if(response.errors.password){
+                    $('.password-errors').html(response.errors.password)
+                }
+                if(response.errors.dob){
+                    $('.dob-errors').html(response.errors.dob)
+                }
+                
+            },
+            error: function(xhr, status, error){
+                console.log(error)
+            }
+        })
+    })
+    
+    
+</script>

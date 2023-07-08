@@ -1,0 +1,153 @@
+---
+import Button from "./Button.astro";
+interface Props {
+    is_auth: boolean,
+}
+
+const { is_auth } = Astro.props as Props;
+
+---
+
+{is_auth ? <div class="post-create-block">
+    <div class="create-wrapper">
+        <textarea name="post_content" id="create_post_textarea" placeholder="What's happening?"></textarea>
+        <div class="create-post-footer">
+            <div class="char-count">
+                0/200
+            </div>
+            <div class="interaction">
+                <div class="post-images">
+                    
+                    <input type="file" name="post_images[]" id="post_images" multiple hidden>
+                    <label for="post_images" title="Add Images">
+                        <i class="bi bi-image-fill"></i>
+                        <div class="image-count">
+                            <span>4</span>
+                        </div>
+
+                    </label>
+                </div>
+                <Button text={'Post'} buttonVariant={'submit'} classList={['btn-med', 'btn-blue']} id="post_btn" />
+                
+            </div>
+        </div>
+        <div class="post-errors">
+            <p>This is an error here</p>
+        </div>
+    </div>
+</div> : null}
+
+<style lang="scss">
+    .post-create-block{
+        margin-bottom: 1em;
+        border-bottom: 1px solid var(--text-second);
+        border-top: 1px solid var(--text-second);
+        padding: 0.75em;
+
+        .create-wrapper{
+
+            textarea{
+                border: 1px solid steelblue;
+                resize: none;
+                width: 100%;
+                background: none;
+                min-height: 100px;
+                border-radius: 5px;
+                padding: 1em;
+                font-size: 1.1rem;
+                color: var(--text-second);
+                margin-bottom: 0.25em;
+
+                &:placeholder-shown{
+                    color: var(--text-second);
+                    font-style: italic;
+                }
+
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            .create-post-footer{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .char-count{
+                    color: var(--text-second);
+                }
+
+                .interaction{
+                    display: flex;
+                    gap: 1em;
+                    align-items: center;
+
+                    .post-images{
+                        padding-top: 0.1rem;
+
+                        label{
+                            position: relative;
+                            cursor: pointer;
+
+                            i{
+                                font-size: 2rem;
+                                color: var(--text-second);
+                            }
+
+                            .image-count{
+                                position: absolute;
+                                background-color: red;
+                                width: 15px;
+                                height: 15px;
+                                top: -15px;
+                                right: -5px;
+                                border-radius: 50%;
+                                display: none;
+                                justify-content: center;
+                                align-items: center;
+
+                                span{
+                                    font-size: 0.9rem;
+                                    color: #fff;
+                                    padding-left: 0.1rem;
+                                    padding-top: 0.12rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .post-errors{
+                display: none;
+
+                p{
+                    color: red;
+                }
+            }
+        }
+    }
+</style>
+
+<script>
+    $('#create_post_textarea').val('')
+
+    $(document).on('click', '#create_post_textarea', function(){
+        $(this).css('height', '150px')
+    })
+
+    $('#create_post_textarea').on('keyup', function(){
+        var charCount = $('#create_post_textarea').val().length
+        $('.char-count').text(charCount + '/200')
+
+        if(charCount > 200){
+            console.log('over')
+            $('.char-count').css('color', 'red')
+            $('#post_btn').prop('disabled', true)
+        }else if(charCount <= 200){
+            console.log('under')
+            $('.char-count').css('color', '#c5c5c5')
+            $('#post_btn').prop('disabled', false)
+        }
+    })
+</script>

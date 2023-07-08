@@ -1,0 +1,30 @@
+---
+import Post from "./Post.astro";
+const response = await fetch('http://127.0.0.1:8000/api/posts');
+const posts = await response.json();
+
+---
+<div class="posts-list">
+    {
+        posts.map((post) => (
+            <Post
+            id={post.id} 
+            href={`/${post.post_user.username}`} 
+            avatar={post.post_user.avatar} 
+            username={post.post_user.username} 
+            post_date={post.created_at} 
+            post_body={post.post_content}
+            post_likes={post.post_likes_count}
+            user_has_liked={post.user_has_liked}
+            is_reply={false} />
+        ))
+    }
+</div>
+
+<style lang=scss>
+    .posts-list{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+</style>

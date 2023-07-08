@@ -1,0 +1,40 @@
+---
+interface Props {
+    title: string,
+    icon: string,
+    href: string,
+}
+
+const {
+    title,
+    icon,
+    href,
+    ...rest
+} = Astro.props as Props;
+---
+
+<a 
+    href={href}>
+    <i class={icon}></i>
+    {title}
+    
+</a>
+
+<style lang="scss">
+    a{
+        display: flex;
+        gap: 0.5em;
+        align-items: center;
+        font-size: 1.5rem;
+        // font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        transition: all 150ms ease;
+        text-align: left;
+
+        &:hover{
+            color: var(--btn-second);
+            color: steelblue
+        }
+    }
+</style>
